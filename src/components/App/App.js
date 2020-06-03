@@ -2,23 +2,33 @@ import React from 'react';
 import axios from 'axios';
 import './App.scss';
 import Card from '../Card/Card';
+import Followers from '../Followers/Followers';
 
 class App extends React.Component {
     constructor () {
         super();
 
         this.state = {
-            // url: 'https://api.github.com/users/hera',
-            url: 'http://127.0.0.1:8080/user.json',
-            user: {}
+            url: 'https://api.github.com/users/hera',
+            user: {},
+            followers: {}
         };
     }
 
     componentDidMount () {
+        // Get user data
         axios.get(this.state.url)
             .then((response) => {
                 this.setState({
                     user: response.data
+                });
+                
+                // Get the user's followers, save data in state
+                return axios.get(response.data.followers_url);
+            })
+            .then((response) => {
+                this.setState({
+                    followers: response.data
                 });
             })
             .catch((error) => {
@@ -36,6 +46,7 @@ class App extends React.Component {
                     ? <Card user={this.state.user} />
                     : <div>Loading...</div>
                 }
+                <Followers users={this.state.followers} />
             </div>
         );
     }

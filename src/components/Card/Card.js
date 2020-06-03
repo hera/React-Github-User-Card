@@ -11,6 +11,11 @@ class Card extends React.Component {
                 <table>
                     <tbody>
                         <tr>
+                            <td colSpan="2">
+                                <img src={ user.avatar_url } alt={ user.name } className="avatar" />
+                            </td>
+                        </tr>
+                        <tr>
                             <td>GitHub profile:</td>
                             <td>{ <a href={ user.html_url }>{ user.html_url }</a> || "Unknown" }</td>
                         </tr>
